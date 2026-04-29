@@ -1,0 +1,80 @@
+---
+// src/components/welcome/Nav.astro
+---
+
+<nav class="bg-slate-800 text-white p-4 relative">
+  <div class="flex items-center justify-between w-full max-w-7xl mx-auto z-30 relative bg-slate-800">
+    
+    <img 
+      src="/imgs/fondoPink.jpeg" 
+      alt="Perfil" 
+      class="w-12 h-12 rounded-full object-cover border-2 border-pink-500" 
+    >
+
+    <div class="flex items-center gap-4">
+      
+      <div 
+        id="menu-pc" 
+        class="hidden md:flex items-center gap-6 pr-4 transition-all duration-500 ease-in-out transform translate-x-[120%] opacity-0"
+      >
+        <a href="#" class="whitespace-nowrap hover:text-pink-400 transition-colors">Opción 1</a>   
+        <a href="#" class="whitespace-nowrap hover:text-pink-400 transition-colors">Opción 2</a>   
+        <a href="#" class="whitespace-nowrap hover:text-pink-400 transition-colors">Opción 3</a>
+      </div>
+
+      <button id="menu-btn" class="cursor-pointer p-2 hover:bg-slate-700 rounded-lg z-40">
+        <div id="icon-lines" class="flex flex-col gap-1.5">
+          <span class="w-7 h-1 bg-white rounded-full"></span>
+          <span class="w-7 h-1 bg-white rounded-full"></span>
+          <span class="w-7 h-1 bg-white rounded-full"></span>
+        </div>
+        <div id="icon-triangle" class="hidden w-0 h-0 border-l-[12px] border-l-transparent border-r-[12px] border-r-transparent border-t-[18px] border-t-pink-500">
+        </div>
+      </button>
+    </div>
+  </div>
+
+  <div 
+    id="menu-mobile-container" 
+    class="grid transition-[grid-template-rows] duration-500 ease-in-out md:hidden grid-rows-[0fr]"
+  >
+    <div class="overflow-hidden">
+      <div class="flex flex-col items-center gap-4 pt-6 pb-2 border-t border-slate-700 mt-4">
+        <a href="#" class="text-lg hover:text-pink-400 transition-colors">Opción 1</a>   
+        <a href="#" class="text-lg hover:text-pink-400 transition-colors">Opción 2</a>   
+        <a href="#" class="text-lg hover:text-pink-400 transition-colors">Opción 3</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<script>
+  const btn = document.getElementById('menu-btn');
+  const menuPC = document.getElementById('menu-pc');
+  const menuMobile = document.getElementById('menu-mobile-container');
+  const lines = document.getElementById('icon-lines');
+  const triangle = document.getElementById('icon-triangle');
+
+  btn?.addEventListener('click', () => {
+    const isMobile = window.innerWidth < 768;
+
+    if (isMobile) {
+      // Animación Móvil: de altura 0 a altura automática usando CSS Grid
+      if (menuMobile?.classList.contains('grid-rows-[0fr]')) {
+        menuMobile.classList.replace('grid-rows-[0fr]', 'grid-rows-[1fr]');
+      } else {
+        menuMobile?.classList.replace('grid-rows-[1fr]', 'grid-rows-[0fr]');
+      }
+    } else {
+      // Animación PC: Deslizamiento lateral
+      menuPC?.classList.toggle('translate-x-[120%]');
+      menuPC?.classList.toggle('translate-x-0');
+      menuPC?.classList.toggle('opacity-0');
+      menuPC?.classList.toggle('opacity-100');
+    }
+
+    // Intercambiar iconos (igual para ambos)
+    lines?.classList.toggle('hidden');
+    triangle?.classList.toggle('hidden');
+  });
+</script>
