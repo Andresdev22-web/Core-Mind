@@ -1,0 +1,37 @@
+---
+// Hero.astro
+---
+
+<section class="relative w-full h-screen flex items-center justify-center overflow-hidden bg-transparent">
+  <canvas id="dots-canvas" class="absolute inset-0 z-0 opacity-60"></canvas>
+
+  <div class="absolute inset-0 z-5 pointer-events-none bg-[radial-gradient(circle_at_center,rgba(251,191,36,0.08)_0%,transparent_70%)]"></div>
+
+  <div class="relative z-10 text-center px-6 pointer-events-none">
+    <h1 class="text-7xl md:text-9xl font-black tracking-tighter text-white uppercase italic">
+      CORE <span class="text-amber-400 drop-shadow-[0_0_30px_rgba(251,191,36,0.4)]">MIND</span>
+    </h1>
+    
+    <div class="w-24 h-1 bg-amber-400 mx-auto my-6 rounded-full opacity-80"></div>
+    
+    <p class="text-slate-400 font-mono text-sm md:text-base tracking-[0.3em] uppercase">
+        Portafolio web de Andres Barrera cortes
+    </p>
+  </div>
+</section>
+
+<style>
+  /* Evitamos cualquier distorsión visual */
+  canvas {
+    display: block;
+    image-rendering: optimizeSpeed;
+  }
+</style>
+
+<script>
+  // Aquí va el código del canvas que ya tenemos.
+  // Asegúrate de usar los valores de:
+  // baseSize = 3;
+  // activeSize = 8; (Un poco más discreto para que sea limpio)
+  // easeFactor = 0.01;
+</script>
