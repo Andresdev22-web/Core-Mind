@@ -1,0 +1,19 @@
+services:
+  astro-app:
+    build: .
+    container_name: core_mind_app
+    restart: unless-stopped
+    networks:
+      - web
+    labels:
+      - "traefik.enable=true"
+      # Configuración de Dominio y SSL
+      - "traefik.http.routers.astro.rule=Host(`nanadev.online`)"
+      - "traefik.http.routers.astro.entrypoints=websecure"
+      - "traefik.http.routers.astro.tls.certresolver=myresolver"
+      # El puerto interno de tu Dockerfile (Nginx)
+      - "traefik.http.services.astro.loadbalancer.server.port=80"
+
+networks:
+  web:
+    external: true
