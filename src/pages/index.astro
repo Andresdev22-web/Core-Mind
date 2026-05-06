@@ -4,6 +4,10 @@
 import Layout from "../layouts/welcome/layout.astro";
 import Navegation from "../components/welcome/components/navegation.astro";
 import Welcome from "../components/welcome/sections/welcome.astro";
+import AboutMe from "../components/welcome/sections/aboutMe.astro";
+import Projects from "../components/welcome/sections/projects.astro";
+import Technologies from "../components/welcome/sections/technologies.astro";
+import Contact from "../components/welcome/sections/contact.astro";
 ---
 
 <Layout>
@@ -14,14 +18,18 @@ import Welcome from "../components/welcome/sections/welcome.astro";
     <!--
     Navegacion de la pagin web
     -->
-   <Navegation>
-   </Navegation>
+    <Navegation />
     <!--
       contenido principal de la pagina web
     -->
     <main>
-            <Welcome />
-
+      <Welcome />
+      <AboutMe />
+      
+      <Projects />
+            
+      <Technologies />
+      <Contact />
     </main>
   </div>
 </Layout>

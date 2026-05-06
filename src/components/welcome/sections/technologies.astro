@@ -1,0 +1,147 @@
+---
+// TechStack.astro
+const techs = [
+  { name: "Astro", icon: "🚀" },
+  { name: "Tailwind", icon: "🎨" },
+  { name: "Docker", icon: "🐳" },
+  { name: "Node.js", icon: "🟢" },
+  { name: "Traefik", icon: "🚦" },
+  { name: "Git", icon: "🟠" },
+  { name: "Arch Linux", icon: "🖥️" },
+  { name: "Nginx", icon: "⚙️" },
+  { name: "JavaScript", icon: "🟨" },
+  { name: "Python", icon: "🐍" },
+  { name: "TypeScript", icon: "🟦" },
+  { name: "React", icon: "⚛️" },
+];
+
+// Función para desordenar el array (Shuffle)
+const shuffle = (array) => [...array].sort(() => Math.random() - 0.5);
+
+// Creamos 4 versiones desordenadas
+const row1 = [...shuffle(techs), ...shuffle(techs)];
+const row2 = [...shuffle(techs), ...shuffle(techs)];
+const row3 = [...shuffle(techs), ...shuffle(techs)];
+const row4 = [...shuffle(techs), ...shuffle(techs)];
+---
+
+<section class="w-full md:py-50 bg-zinc-950 border-t border-slate-900 overflow-hidden">
+
+    <div class="max-w-5xl mx-auto px-6 mb-12">
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+      <div>
+        <h2 class="text-amber-400 font-mono text-[11px] uppercase tracking-[0.4em] mb-2">Stack Tecnológico</h2>
+        <h3 class="text-2xl md:text-3xl font-black text-white italic uppercase">Herramientas<span class="text-amber-400">_</span></h3>
+      </div>
+
+      <!-- Buscador -->
+      <div class="relative w-full md:w-64">
+        <input 
+          type="text" 
+          id="tech-search"
+          placeholder="Filtrar tecnología..." 
+          class="w-full bg-slate-900/50 border border-slate-800 text-slate-200 text-sm rounded-xl py-2 px-4 outline-none focus:border-amber-400/50 transition-all font-mono"
+        />
+      </div>
+    </div>
+  </div>
+
+  <!-- Contenedor de los 4 Carriles -->
+  <div id="marquee-master-container" class="space-y-4 opacity-70 hover:opacity-100 transition-opacity duration-500">
+    
+    <!-- Fila 1: Derecha -->
+    <div class="flex overflow-hidden group">
+      <div class="flex space-x-4 animate-marquee-right group-hover:pause">
+        {row1.map((t) => (
+          <div class="tech-card">{t.icon} <span class="ml-2">{t.name}</span></div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Fila 2: Izquierda -->
+    <div class="flex overflow-hidden group">
+      <div class="flex space-x-4 animate-marquee-left group-hover:pause">
+        {row2.map((t) => (
+          <div class="tech-card">{t.icon} <span class="ml-2">{t.name}</span></div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Fila 3: Derecha (Velocidad distinta) -->
+    <div class="flex overflow-hidden group">
+      <div class="flex space-x-4 animate-marquee-right-slow group-hover:pause">
+        {row3.map((t) => (
+          <div class="tech-card">{t.icon} <span class="ml-2">{t.name}</span></div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Fila 4: Izquierda (Velocidad distinta) -->
+    <div class="flex overflow-hidden group">
+      <div class="flex space-x-4 animate-marquee-left-fast group-hover:pause">
+        {row4.map((t) => (
+          <div class="tech-card">{t.icon} <span class="ml-2">{t.name}</span></div>
+        ))}
+      </div>
+    </div>
+  </div>
+
+  <!-- Contenedor de Resultados (Buscador) -->
+  <div id="search-results" class="max-w-5xl mx-auto px-6 flex flex-wrap gap-4 hidden pt-8"></div>
+</section>
+
+<style>
+  @reference "../../styles/global.css"; 
+
+  .tech-card {
+    @apply flex items-center bg-slate-900/40 border border-slate-800 px-5 py-2.5 rounded-xl 
+           text-slate-300 font-mono text-xs uppercase tracking-tight min-w-max 
+           hover:border-amber-400/40 transition-colors cursor-default;
+  }
+
+  /* Animaciones */
+  @keyframes toRight {
+    0% { transform: translateX(-50%); }
+    100% { transform: translateX(0); }
+  }
+
+  @keyframes toLeft {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  .animate-marquee-right { animation: toRight 40s linear infinite; }
+  .animate-marquee-left { animation: toLeft 35s linear infinite; }
+  .animate-marquee-right-slow { animation: toRight 50s linear infinite; }
+  .animate-marquee-left-fast { animation: toLeft 25s linear infinite; }
+
+  .pause { animation-play-state: paused !important; }
+</style>
+
+<script>
+  const searchInput = document.getElementById('tech-search');
+  const masterContainer = document.getElementById('marquee-master-container');
+  const searchResults = document.getElementById('search-results');
+  
+  // Lista única para el buscador
+  const techNames = ["Astro", "Tailwind", "Docker", "Node.js", "Traefik", "Git", "Arch Linux", "Nginx", "JavaScript", "Python", "TypeScript", "React"];
+
+  searchInput.addEventListener('input', (e) => {
+    const term = e.target.value.toLowerCase();
+
+    if (term.length > 0) {
+      masterContainer.classList.add('hidden');
+      searchResults.classList.remove('hidden');
+      
+      const filtered = techNames.filter(name => name.toLowerCase().includes(term));
+      searchResults.innerHTML = filtered.map(name => `
+        <div class="flex items-center bg-slate-900/60 border border-amber-400/30 px-5 py-2.5 rounded-xl text-amber-400 font-mono text-xs uppercase">
+          ${name}
+        </div>
+      `).join('');
+    } else {
+      masterContainer.classList.remove('hidden');
+      searchResults.classList.add('hidden');
+    }
+  });
+</script>

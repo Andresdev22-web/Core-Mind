@@ -1,0 +1,136 @@
+---
+// Projects.astro
+const projects = [
+  {
+    title: "Traefik VPS",
+    image: "/imgs/projects/traefik.png", // Asegúrate de que esta ruta exista
+    description: "Configuración de infraestructura segura con Docker y Traefik v3.6.",
+    tech: ["Docker", "Traefik", "Linux"],
+    details: "Este proyecto establece un entorno de producción robusto con certificados SSL automáticos. Gestiona múltiples contenedores bajo un solo proxy inverso con redirección a HTTPS."
+  },
+  {
+    title: "Core Mind",
+    image: "/imgs/welcome/coreMind.png", 
+    description: "Web personal con Astro y Tailwind, enfocada en alto rendimiento.",
+    tech: ["Astro", "Tailwind", "JavaScript"],
+    details: "Interfaz minimalista con fondos animados en Canvas y arquitectura de componentes reutilizables de alta eficiencia."
+  }
+];
+---
+
+<section class="w-full md:py-50 bg-zinc-950 text-slate-300 border-t border-slate-900">
+  
+    <div class="max-w-5xl mx-auto px-6">
+    
+    <!-- Encabezado y Filtro -->
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+      <div>
+        <h2 class="text-amber-400 font-mono text-[11px] uppercase tracking-[0.4em] mb-2">Repositorio</h2>
+        <h3 class="text-2xl md:text-3xl font-black text-white italic uppercase">Proyectos<span class="text-amber-400">_</span></h3>
+      </div>
+
+      <!-- Barra de Búsqueda -->
+      <div class="relative w-full md:w-72 group">
+        <input 
+          type="text" 
+          id="project-search"
+          placeholder="Buscar lenguaje..." 
+          class="w-full bg-slate-900/50 border border-slate-800 text-slate-200 text-sm rounded-xl py-2.5 pl-4 pr-4 outline-none focus:border-amber-400/50 transition-all font-mono"
+        />
+      </div>
+    </div>
+
+    <!-- Grid de Proyectos -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="project-grid">
+      {projects.map((project) => (
+        <div 
+          class="project-card text-left group relative bg-slate-900/40 border border-slate-800 p-5 rounded-2xl hover:border-amber-400/30 transition-all duration-500 cursor-pointer"
+          data-tech={project.tech.join(',').toLowerCase()}
+          data-title={project.title}
+          data-desc={project.details}
+          data-img={project.image}
+        >
+          <div class="space-y-4">
+            <h4 class="text-white font-bold text-lg group-hover:text-amber-400 transition-colors uppercase tracking-tight">
+                {project.title}
+            </h4>
+            <p class="text-slate-400 text-sm leading-relaxed line-clamp-2 font-light">
+              {project.description}
+            </p>
+            <div class="flex flex-wrap gap-2 pt-2">
+              {project.tech.map((t) => (
+                <span class="tech-tag text-[9px] font-mono border border-slate-800 px-2 py-0.5 rounded text-slate-500">
+                  {t}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <!-- MODAL (Oculto por defecto) -->
+  <div id="project-modal" class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/90 backdrop-blur-sm hidden">
+    <div class="bg-zinc-900 border border-slate-800 max-w-2xl w-full rounded-2xl overflow-hidden shadow-2xl">
+        <div class="relative h-64 bg-slate-800">
+            <img id="modal-img" src="" alt="" class="w-full h-full object-cover" />
+            <button id="close-modal" class="absolute top-4 right-4 bg-black/50 text-white p-2 rounded-full hover:bg-amber-400 hover:text-black transition-all">✕</button>
+        </div>
+        <div class="p-8">
+            <h2 id="modal-title" class="text-3xl font-black text-white italic uppercase mb-4"></h2>
+            <p id="modal-desc" class="text-slate-400 leading-relaxed"></p>
+        </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // 1. Lógica del Buscador
+  const searchInput = document.getElementById('project-search');
+  const cards = document.querySelectorAll('.project-card');
+
+  searchInput.addEventListener('input', (e) => {
+    const searchTerm = e.target.value.toLowerCase();
+    cards.forEach(card => {
+      const tech = card.getAttribute('data-tech');
+      const title = card.getAttribute('data-title').toLowerCase();
+      
+      if (tech.includes(searchTerm) || title.includes(searchTerm)) {
+        card.style.display = "block";
+      } else {
+        card.style.display = "none";
+      }
+    });
+  });
+
+  // 2. Lógica del Modal
+  const modal = document.getElementById('project-modal');
+  const modalImg = document.getElementById('modal-img');
+  const modalTitle = document.getElementById('modal-title');
+  const modalDesc = document.getElementById('modal-desc');
+  const closeModal = document.getElementById('close-modal');
+
+  cards.forEach(card => {
+    card.addEventListener('click', () => {
+      modalImg.src = card.getAttribute('data-img');
+      modalTitle.innerText = card.getAttribute('data-title');
+      modalDesc.innerText = card.getAttribute('data-desc');
+      modal.classList.remove('hidden');
+      document.body.style.overflow = 'hidden'; // Bloquea scroll
+    });
+  });
+
+  closeModal.addEventListener('click', () => {
+    modal.classList.add('hidden');
+    document.body.style.overflow = 'auto'; // Libera scroll
+  });
+
+  // Cerrar modal al hacer click fuera
+  window.addEventListener('click', (e) => {
+    if (e.target === modal) {
+        modal.classList.add('hidden');
+        document.body.style.overflow = 'auto';
+    }
+  });
+</script>
