@@ -7,11 +7,9 @@ services:
       - web
     labels:
       - "traefik.enable=true"
-      # Configuración de Dominio y SSL
-      - "traefik.http.routers.astro.rule=Host(`nanadev.localhost`)"
-      - "traefik.http.routers.astro.entrypoints=websecure"
-      - "traefik.http.routers.astro.tls.certresolver=myresolver"
-      # El puerto interno de tu Dockerfile (Nginx)
+      - "traefik.http.routers.astro.rule=Host(`${DOMAIN}`)"
+      - "traefik.http.routers.astro.entrypoints=${ENTRYPOINT}"
+      #- "traefik.http.routers.astro.tls.certresolver=${CERTRESOLVER}"
       - "traefik.http.services.astro.loadbalancer.server.port=80"
 
 networks:
