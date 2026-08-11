@@ -1,20 +1,31 @@
 ---
 // Projects.astro
 const projects = [
-  {
-    title: "Traefik VPS",
-    image: "/imgs/projects/traefik.png", // Asegúrate de que esta ruta exista
-    description: "Configuración de infraestructura segura con Docker y Traefik v3.6.",
-    tech: ["Docker", "Traefik", "Linux"],
-    details: "Este proyecto establece un entorno de producción robusto con certificados SSL automáticos. Gestiona múltiples contenedores bajo un solo proxy inverso con redirección a HTTPS."
+ {
+    title: "Easy English",
+    image: "/imgs/welcome/easyEnglish.png",
+    description: "Plataforma educativa para aprender inglés desde cero hasta nivel avanzado.",
+    tech: ["Astro", "Tailwind", "JavaScript"],
+    details: "Un método de aprendizaje estructurado paso a paso que combina módulos teóricos con exámenes prácticos para evaluar tu progreso, retener vocabulario y medir cuánto vas advancing.",
+    link: "https://easyenglish.nanadev.online/" // <-- Agrega tu link aquí
   },
   {
     title: "Core Mind",
     image: "/imgs/welcome/coreMind.png", 
     description: "Web personal con Astro y Tailwind, enfocada en alto rendimiento.",
     tech: ["Astro", "Tailwind", "JavaScript"],
-    details: "Interfaz minimalista con fondos animados en Canvas y arquitectura de componentes reutilizables de alta eficiencia."
-  }
+    details: "Interfaz minimalista con fondos animados en Canvas y arquitectura de componentes reutilizables de alta eficiencia.",
+    link: "https://nanadev.online/"
+  },
+  {
+    title: "Traefik VPS",
+    image: "/imgs/projects/traefik.png",
+    description: "Configuración de infraestructura segura con Docker y Traefik v3.6.",
+    tech: ["Docker", "Traefik", "Linux"],
+    details: "Este proyecto establece un entorno de producción robusto con certificados SSL automáticos. Gestiona múltiples contenedores bajo un solo proxy inverso con redirección a HTTPS.",
+    link: "https://tu-link-de-traefik.com"
+  },
+  
 ];
 ---
 
@@ -49,6 +60,7 @@ const projects = [
           data-title={project.title}
           data-desc={project.details}
           data-img={project.image}
+          data-link={project.link}
         >
           <div class="space-y-4">
             <h4 class="text-white font-bold text-lg group-hover:text-amber-400 transition-colors uppercase tracking-tight">
@@ -77,9 +89,24 @@ const projects = [
             <img id="modal-img" src="" alt="" class="w-full h-full object-cover" />
             <button id="close-modal" class="absolute top-4 right-4 bg-black/50 text-white p-2 rounded-full hover:bg-amber-400 hover:text-black transition-all">✕</button>
         </div>
-        <div class="p-8">
-            <h2 id="modal-title" class="text-3xl font-black text-white italic uppercase mb-4"></h2>
-            <p id="modal-desc" class="text-slate-400 leading-relaxed"></p>
+        <div class="p-8 flex flex-col gap-6">
+            <div>
+              <h2 id="modal-title" class="text-3xl font-black text-white italic uppercase mb-4"></h2>
+              <p id="modal-desc" class="text-slate-400 leading-relaxed"></p>
+            </div>
+
+            <!-- Botón Ir a la Web -->
+            <div>
+              <a 
+                id="modal-link" 
+                href="#" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                class="inline-block bg-amber-400 hover:bg-amber-300 text-black font-bold px-6 py-2.5 rounded-xl text-sm transition-colors text-center"
+              >
+                Ir a la web
+              </a>
+            </div>
         </div>
     </div>
   </div>
@@ -109,6 +136,7 @@ const projects = [
   const modalImg = document.getElementById('modal-img');
   const modalTitle = document.getElementById('modal-title');
   const modalDesc = document.getElementById('modal-desc');
+  const modalLink = document.getElementById('modal-link');
   const closeModal = document.getElementById('close-modal');
 
   cards.forEach(card => {
@@ -116,6 +144,7 @@ const projects = [
       modalImg.src = card.getAttribute('data-img');
       modalTitle.innerText = card.getAttribute('data-title');
       modalDesc.innerText = card.getAttribute('data-desc');
+      modalLink.href = card.getAttribute('data-link');
       modal.classList.remove('hidden');
       document.body.style.overflow = 'hidden'; // Bloquea scroll
     });
